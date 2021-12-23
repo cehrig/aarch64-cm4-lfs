@@ -1,6 +1,6 @@
 # RPi CM4 LFS environment
 The repo build a aarch64 cross-compile toolchain (stage 1) and LFS environment (stage 2) to be run on a Raspberry Pi
-Compute Module 4. This has been tested on a amd64 build machine.
+Compute Module 4 with the default Raspberry Pi bootloader and slightly modified kernel image. This has been tested on a amd64 build machine.
 
 # Setup
 
