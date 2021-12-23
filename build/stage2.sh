@@ -1,0 +1,34 @@
+#!/bin/bash
+
+. stage2/000-man_pages.sh
+. stage2/010-iana_etc.sh
+. stage2/020-gcc_shared.sh
+. stage2/030-glibc.sh
+. stage2/040-libstdc++.sh
+. stage2/050-m4.sh
+. stage2/060-ncurses.sh
+. stage2/070-bash.sh
+. stage2/080-coreutils.sh
+. stage2/090-diffutils.sh
+. stage2/100-file_native.sh
+. stage2/101-file.sh
+. stage2/110-findutils.sh
+. stage2/120-gawk.sh
+. stage2/130-sed.sh
+. stage2/140-grep.sh
+. stage2/150-gzip.sh
+. stage2/160-make.sh
+. stage2/170-patch.sh
+. stage2/180-tar.sh
+. stage2/190-xz.sh
+. stage2/200-binutil.sh
+. stage2/210-zlib.sh
+. stage2/220-bzip2.sh
+. stage2/230-nano.sh
+. stage2/240-kernel_headers.sh
+. stage2/250-procps_ng.sh
+. stage2/260-util_linux.sh
+. stage2/270-sysvinit.sh
+. stage2/280-shadow.sh
+. stage2/290-iproute2.sh
+. stage2/300-udev.sh
