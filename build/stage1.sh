@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 # general setup
 . stage1/000-create_user.sh
@@ -13,3 +13,4 @@
 . stage1/070-glibc.sh
 . stage1/080-libstdc++.sh
 . stage1/090-gcc_shared.sh
+. stage1/100-expat.sh

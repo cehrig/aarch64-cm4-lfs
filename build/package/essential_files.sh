@@ -12,6 +12,7 @@ daemon:x:6:6:Daemon User:/dev/null:/bin/false
 messagebus:x:18:18:D-Bus Message Daemon User:/run/dbus:/bin/false
 uuidd:x:80:80:UUID Generation Daemon User:/dev/null:/bin/false
 nobody:x:99:99:Unprivileged User:/dev/null:/bin/false
+dhcpcd:x:52:52:dhcpcd:/var/lib/dhcpcd:/bin/false
 EOF
 
 cat > "$LFS"/etc/shadow << "EOF"
@@ -21,6 +22,7 @@ daemon:x:18982:0:99999:7:::
 messagebus:x:18982:0:99999:7:::
 uuidd:x:18982:0:99999:7:::
 nobody:x:18982:0:99999:7:::
+dhcpcd:!::0:99999:7:::
 EOF
 
 cat > "$LFS"/etc/group << "EOF"
@@ -44,6 +46,7 @@ adm:x:16:
 messagebus:x:18:
 input:x:24:
 mail:x:34:
+dhcpcd:x:52:
 kvm:x:61:
 uuidd:x:80:
 wheel:x:97:
@@ -82,22 +85,37 @@ echo runlevel $1
 
 if [ $1 = "3" ]; then
   mount -o remount,rw /
-  mount --all
+  mount /sys
+  mount /proc
+
+  echo "updating udev hwdb"
+  udevadm hwdb --update
+  udevd -d
+
+  echo "starting dhcpcd"
+  dhcpcd -b -q
+
+  echo "loading kernel modules"
+  modprobe option
+  modprobe usbserial
+  modprobe usb_wwan
 fi
 EOF
 
 chmod +x "$LFS"/etc/rc
 
 cat > "$LFS"/etc/fstab << "EOF"
-none            /proc proc  defaults  0 0
-/dev/mmcblk0p1  /               ext4            noatime         0 1
-/dev/mmcblk0p2  /boot           ext4            defaults        0 1
+none            /sys            sysfs   defaults        0 0
+none            /proc           proc    defaults        0 0
+/dev/mmcblk0p1  /               ext4    noatime         0 1
+/dev/mmcblk0p2  /boot           ext4    defaults        0 1
 EOF
 
 touch "$LFS"/var/log/{btmp,lastlog,faillog,wtmp}
 chgrp -v +13 "$LFS"/var/log/lastlog
 chmod -v 664  "$LFS"/var/log/lastlog
 chmod -v 600  "$LFS"/var/log/btmp
+chown -v 52:52 "$LFS"/var/lib/dhcpcd
 
 cp /usr/bin/qemu-aarch64-static "$LFS"/usr/bin/
 chroot "$LFS" qemu-aarch64-static /bin/bash -c 'ldconfig'

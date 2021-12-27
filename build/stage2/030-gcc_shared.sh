@@ -35,8 +35,4 @@ as_lfs 'cp ${LFS_STAGE_1_SOURCES}/gcc-11.2.0.tar.xz ${LFS_STAGE_1_WORK} && \
     --disable-libstdcxx                    \
     --enable-languages=c,c++ &&            \
   make &&
-  make DESTDIR=${LFS} install &&
-  cd ${LFS_STAGE_1_WORK}/gcc-11.2.0 &&
-  cat gcc/limitx.h gcc/glimits.h gcc/limity.h > ${LFS}/lib/gcc/aarch64-unkonwn-linux-gnu/11.2.0/install-tools/include/limits.h'
-
-chroot "$LFS" qemu-aarch64-static /bin/bash -c '/usr/libexec/gcc/aarch64-unkonwn-linux-gnu/11.2.0/install-tools/mkheaders'
+  make DESTDIR=${LFS} install'
